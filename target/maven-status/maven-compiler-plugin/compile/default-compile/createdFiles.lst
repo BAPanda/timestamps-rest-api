@@ -1,0 +1,6 @@
+timestamps\dao\StatisticsDAO.class
+timestamps\kafkaintegration\KafkaConfiguration.class
+timestamps\dao\impl\StatisticsDAOImpl.class
+timestamps\kafkaintegration\Producer.class
+timestamps\models\Statistics.class
+timestamps\controllers\StatisticsController.class
