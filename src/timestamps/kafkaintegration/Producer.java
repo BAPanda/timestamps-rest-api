@@ -2,7 +2,6 @@ package timestamps.kafkaintegration;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Properties;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -38,6 +37,7 @@ public class Producer {
 	public void send(Statistics stat){
 		
 		producer.send(new ProducerRecord<String, String>(topic, stat.getEntityID().toString(), stat.toString()));
+		producer.close();
 		
 	}
 

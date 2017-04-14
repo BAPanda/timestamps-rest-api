@@ -24,18 +24,31 @@ public class StatisticsController {
 			@RequestParam("temper") double temper, @RequestParam("space") double space, @RequestParam("ram") double ram,
 			ModelMap model) throws FileNotFoundException, IOException {
 
-		if (entId == null || timestamp == 0 || temper == 0 || space == 0 || ram == 0) {
-			model.addAttribute("message", "Нечего отсылать");
-		} else {
-
-			Statistics stat = new Statistics(entId, timestamp, temper, space, ram);
+		Statistics stat = new Statistics(entId, timestamp, temper, space, ram);
+		
+		if (validate(stat)) {
+			model.addAttribute("message", "Invalid data");
+		} else {			
 
 			Producer prod = new Producer();
 			prod.send(stat);
+			
 
-			model.addAttribute("message", "Отослано");
+			model.addAttribute("message", "Sended");
 		}
 		return "sended";
+	}
+	
+	private boolean validate(Statistics stat) {
+		if (stat.getEntityID().intValue() <= 0) return false;
+		
+		if (stat.gethDDSpace() < 0 && stat.gethDDSpace() > 100) return false;
+		
+		if (stat.getrAMLoad() < 0 && stat.getrAMLoad() > 100) return false;
+		
+		if (stat.getTimestamp() < 0) return false;
+		
+		return true;
 	}
 
 }
