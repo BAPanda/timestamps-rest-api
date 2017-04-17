@@ -1,6 +1,12 @@
-timestamps\dao\StatisticsDAO.class
 timestamps\kafkaintegration\KafkaConfiguration.class
-timestamps\dao\impl\StatisticsDAOImpl.class
 timestamps\kafkaintegration\Producer.class
+timestamps\dao\impl\EntityDAOImpl.class
+timestamps\dao\StatisticsDAO.class
+timestamps\models\Entity.class
+timestamps\dao\impl\EntityDAOImpl$EntityRowMapper.class
+timestamps\dao\impl\StatisticsDAOImpl.class
+timestamps\dao\impl\EntityDAOImpl$1.class
 timestamps\models\Statistics.class
+timestamps\dao\impl\EntityDAOImpl$2.class
 timestamps\controllers\StatisticsController.class
+timestamps\dao\EntityDAO.class

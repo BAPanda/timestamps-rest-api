@@ -4,12 +4,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import timestamps.dao.impl.EntityDAOImpl;
 import timestamps.kafkaintegration.Producer;
 import timestamps.models.Statistics;
 
@@ -18,6 +20,12 @@ import timestamps.models.Statistics;
 @RequestMapping("/collector")
 
 public class StatisticsController {
+	private EntityDAOImpl entityDAOImpl;
+	
+	@Autowired
+	public void setEntityDAOImpl(EntityDAOImpl entityDAOImpl){
+		this.entityDAOImpl = entityDAOImpl;
+	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String printHello(@RequestParam("entId") BigInteger entId, @RequestParam("timestamp") long timestamp,
@@ -26,7 +34,7 @@ public class StatisticsController {
 
 		Statistics stat = new Statistics(entId, timestamp, temper, space, ram);
 		
-		if (validate(stat)) {
+		if (!validate(stat)) {
 			model.addAttribute("message", "Invalid data");
 		} else {			
 
@@ -40,7 +48,7 @@ public class StatisticsController {
 	}
 	
 	private boolean validate(Statistics stat) {
-		if (stat.getEntityID().intValue() <= 0) return false;
+		if (entityDAOImpl.getByID(stat.getEntityID()) == null) return false;
 		
 		if (stat.gethDDSpace() < 0 && stat.gethDDSpace() > 100) return false;
 		
